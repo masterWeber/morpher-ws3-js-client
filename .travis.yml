@@ -1,0 +1,4 @@
+language: javascript
+node_js:
+  - 12
+script: npm run test
