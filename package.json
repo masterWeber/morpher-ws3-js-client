@@ -1,0 +1,26 @@
+{
+  "name": "morpher",
+  "version": "0.1.0",
+  "description": "JavaScript-клиент веб-сервиса \"Морфер\" 3.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/masterWeber/morpher.git"
+  },
+  "keywords": [
+    "morpher"
+  ],
+  "author": "Master Weber <master.weber@outlook.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/masterWeber/morpher/issues"
+  },
+  "homepage": "https://github.com/masterWeber/morpher#readme",
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "^8.2.1"
+  }
+}
