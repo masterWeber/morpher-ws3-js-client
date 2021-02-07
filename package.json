@@ -1,5 +1,5 @@
 {
-  "name": "morpher",
+  "name": "morpher-ws3-client",
   "version": "0.1.0",
   "description": "JavaScript-клиент веб-сервиса \"Морфер\" 3.0",
   "main": "src/morpher.js",
