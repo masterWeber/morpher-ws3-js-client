@@ -2,16 +2,17 @@
   "name": "morpher-ws3-client",
   "version": "0.1.0",
   "description": "JavaScript-клиент веб-сервиса \"Морфер\" 3.0",
-  "main": "src/morpher.js",
+  "main": "./index.js",
   "scripts": {
-    "test": "NODE_ENV=test ./node_modules/.bin/mocha \"test/**/*.test.js\" -R spec"
+    "test": "NODE_ENV=test ./node_modules/.bin/mocha \"test/**/*.test.js\" -R spec",
+    "build": "npm test && webpack"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/masterWeber/morpher.git"
   },
   "keywords": [
-    "morpher"
+    "morpher", "web-service"
   ],
   "author": "Master Weber <master.weber@outlook.com>",
   "license": "MIT",
@@ -23,10 +24,22 @@
     "node-fetch": "^2.6.1"
   },
   "devDependencies": {
+    "@babel/cli": "^7.12.13",
+    "@babel/core": "^7.12.13",
+    "@babel/plugin-proposal-class-properties": "^7.12.13",
+    "@babel/plugin-transform-arrow-functions": "^7.12.13",
+    "@babel/plugin-transform-classes": "^7.12.13",
+    "@babel/plugin-transform-modules-umd": "^7.12.13",
+    "@babel/preset-env": "^7.12.13",
+    "babel-loader": "^8.2.2",
     "chai": "^4.3.0",
     "chai-as-promised": "^7.1.1",
     "fetch-mock": "^9.11.0",
     "mocha": "^8.2.1",
-    "mocha-lcov-reporter": "^1.3.0"
+    "mocha-lcov-reporter": "^1.3.0",
+    "terser-webpack-plugin": "^5.1.1",
+    "uglify-js": "^3.12.7",
+    "webpack": "^5.21.2",
+    "webpack-cli": "^4.5.0"
   }
 }
