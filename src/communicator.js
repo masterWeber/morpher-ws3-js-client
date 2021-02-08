@@ -81,15 +81,6 @@ class Communicator {
   }
 
   _fetcher(url, init) {
-
-    if (global) {
-      return global.fetch(url, init);
-    }
-
-    if (window) {
-      return window.fetch(url, init);
-    }
-
     return fetch(url, init);
   }
 
