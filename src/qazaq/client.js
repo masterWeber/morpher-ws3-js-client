@@ -1,13 +1,13 @@
 'use strict';
 
 class Client {
-    constructor(communicator) {
-        this.communicator = communicator;
-    }
+  constructor(communicator) {
+    this.communicator = communicator;
+  }
 
-    declension(phrase) {
+  declension(phrase) {
 
-    }
+  }
 }
 
 module.exports = Client;

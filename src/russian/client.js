@@ -6,36 +6,36 @@ const MorpherError = require('../morpher-error');
 
 class Client {
 
-    prefix = '/russian';
+  prefix = '/russian';
 
-    constructor(communicator) {
-        this.communicator = communicator;
+  constructor(communicator) {
+    this.communicator = communicator;
+  }
+
+  declension(phrase, ...flags) {
+    const params = new Map();
+    params.set('s', phrase);
+
+    if (flags.length > 0) {
+      params.set('flags', flags.join(','));
     }
 
-    declension(phrase, ...flags) {
-        const params = new Map();
-        params.set('s', phrase);
+    const path = this.prefix + '/declension';
 
-        if (flags.length > 0) {
-            params.set('flags', flags.join(','));
-        }
+    return this.communicator.request(path, params, Communicator.METHOD_GET).
+        then(response => response.json()).
+        then(data => {
+          if (data['message'] && data['code']) {
+            throw new MorpherError(data['message'], data['code']);
+          }
 
-        const path = this.prefix + '/declension';
+          return new DeclensionResult(data);
+        });
+  }
 
-        return this.communicator.request(path, params, Communicator.METHOD_GET)
-            .then(response => response.json())
-            .then(data => {
-                if (data['message'] && data['code']) {
-                    throw new MorpherError(data['message'], data['code']);
-                }
+  spell(number, unit) {
 
-                return new DeclensionResult(data)
-            });
-    }
-
-    spell(number, unit) {
-
-    }
+  }
 
 }
 
