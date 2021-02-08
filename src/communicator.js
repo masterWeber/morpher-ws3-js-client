@@ -51,8 +51,10 @@ class Communicator {
     };
 
     return new Promise((resolve, reject) => {
-      const timer = setTimeout(() => reject(new Error('TIMEOUT')),
-          this.timeoutMs);
+      const timer = setTimeout(
+          () => reject(new Error('TIMEOUT')),
+          this.timeoutMs,
+      );
 
       this.fetcher(url, init).then(value => {
         clearTimeout(timer);
