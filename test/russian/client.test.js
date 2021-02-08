@@ -147,4 +147,148 @@ describe('Russian client', function() {
 
   });
 
+  describe('#spell()', async function() {
+
+    const communicatorMock = new CommunicatorMock();
+
+    const client = new RussianClient();
+    client.communicator = communicatorMock;
+
+    it('should be used the correct parameters', async function() {
+
+      const response = {
+        'n': {
+          'И': 'двести тридцать пять',
+          'Р': 'двухсот тридцати пяти',
+          'Д': 'двумстам тридцати пяти',
+          'В': 'двести тридцать пять',
+          'Т': 'двумястами тридцатью пятью',
+          'П': 'двухстах тридцати пяти',
+        },
+        'unit': {
+          'И': 'рублей',
+          'Р': 'рублей',
+          'Д': 'рублям',
+          'В': 'рублей',
+          'Т': 'рублями',
+          'П': 'рублях',
+        },
+      };
+
+      communicatorMock.response = new Response(
+          JSON.stringify(response),
+          {status: 200},
+      );
+
+      await client.spell(235, 'рубль');
+
+      assert.equal(client.communicator.lastPath, '/russian/spell');
+      assert.equal(client.communicator.lastParams.get('n'), 235);
+      assert.equal(client.communicator.lastParams.get('unit'), 'рубль');
+      assert.equal(client.communicator.lastHttpMethod,
+          CommunicatorMock.METHOD_GET);
+
+    });
+
+    it('should return spelling number', async function() {
+
+      const response = {
+        'n': {
+          'И': 'двести тридцать пять',
+          'Р': 'двухсот тридцати пяти',
+          'Д': 'двумстам тридцати пяти',
+          'В': 'двести тридцать пять',
+          'Т': 'двумястами тридцатью пятью',
+          'П': 'двухстах тридцати пяти',
+        },
+        'unit': {
+          'И': 'рублей',
+          'Р': 'рублей',
+          'Д': 'рублям',
+          'В': 'рублей',
+          'Т': 'рублями',
+          'П': 'рублях',
+        },
+      };
+
+      communicatorMock.response = new Response(
+          JSON.stringify(response),
+          {status: 200},
+      );
+
+      const declensionResult = await client.spell(235, 'рубль');
+
+      assert.equal(declensionResult['n']['родительный'], response['n']['Р']);
+      assert.equal(declensionResult['n']['genitive'], response['n']['Р']);
+
+      assert.equal(declensionResult['n']['дательный'], response['n']['Д']);
+      assert.equal(declensionResult['n']['dative'], response['n']['Д']);
+
+      assert.equal(declensionResult['n']['винительный'], response['n']['В']);
+      assert.equal(declensionResult['n']['accusative'], response['n']['В']);
+
+      assert.equal(declensionResult['n']['творительный'], response['n']['Т']);
+      assert.equal(declensionResult['n']['instrumental'], response['n']['Т']);
+
+      assert.equal(declensionResult['n']['предложный'], response['n']['П']);
+      assert.equal(declensionResult['n']['prepositional'], response['n']['П']);
+
+      assert.equal(declensionResult['n']['предложный_О'], response['n']['П_о']);
+      assert.equal(declensionResult['n']['prepositional_O'],
+          response['n']['П_о']);
+
+      assert.equal(declensionResult['unit']['родительный'],
+          response['unit']['Р']);
+      assert.equal(declensionResult['unit']['genitive'],
+          response['unit']['Р']);
+
+      assert.equal(declensionResult['unit']['дательный'],
+          response['unit']['Д']);
+      assert.equal(declensionResult['unit']['dative'],
+          response['unit']['Д']);
+
+      assert.equal(declensionResult['unit']['винительный'],
+          response['unit']['В']);
+      assert.equal(declensionResult['unit']['accusative'],
+          response['unit']['В']);
+
+      assert.equal(declensionResult['unit']['творительный'],
+          response['unit']['Т']);
+      assert.equal(declensionResult['unit']['instrumental'],
+          response['unit']['Т']);
+
+      assert.equal(declensionResult['unit']['предложный'],
+          response['unit']['П']);
+      assert.equal(declensionResult['unit']['prepositional'],
+          response['unit']['П']);
+
+      assert.equal(declensionResult['unit']['предложный_О'],
+          response['unit']['П_о']);
+      assert.equal(declensionResult['unit']['prepositional_O'],
+          response['unit']['П_о']);
+
+    });
+
+    it('should throw MorpherError', async function() {
+
+      const response = {
+        'code': 6,
+        'message': 'Не указан обязательный параметр: unit.',
+      };
+
+      communicatorMock.response = new Response(
+          JSON.stringify(response),
+          {status: 400},
+      );
+
+      try {
+        await client.spell(235);
+      } catch (err) {
+        assert.instanceOf(err, MorpherError);
+      }
+
+    });
+
+  });
+
 });
