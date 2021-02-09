@@ -65,7 +65,7 @@ describe('Communicator', function() {
     it('should return error TIMEOUT', function() {
 
       const communicator = new Communicator({
-        timeoutMs: 500,
+        timeoutMs: 10,
       });
 
       let params = new Map();
@@ -73,7 +73,7 @@ describe('Communicator', function() {
 
       fetchMock.get(
           'https://ws3.morpher.ru/russian/declension?s=%D0%9B%D1%8E%D0%B1%D0%BE%D0%B2%D1%8C+%D0%A1%D0%BE%D0%BA%D0%BE%D0%BB%D0%BE%D0%B2%D0%B0',
-          {}, {delay: 1000},
+          {}, {delay: 20},
       );
       return communicator.request(path, params, Communicator.METHOD_GET).
           catch(error => {
