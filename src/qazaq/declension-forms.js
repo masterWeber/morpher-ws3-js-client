@@ -4,8 +4,10 @@ class DeclensionForms {
 
   constructor(props) {
 
-    this.nominative = props['A'];
-    this['атау'] = this.nominative;
+    if (props['A'] !== undefined) {
+      this.nominative = props['A'];
+      this['атау'] = this.nominative;
+    }
 
     this.genitive = props['І'];
     this['ілік'] = this.genitive;
