@@ -176,4 +176,26 @@ describe('E2E Russian client', function() {
     });
 
   });
+
+  describe('#adjectivize()', function() {
+
+    it('should return valid list', async function() {
+      const result = await morpher.russian.adjectivize('Москва');
+
+      assert.deepEqual(result, ["московский"]);
+
+    });
+
+    it('should throw MorpherError', async function() {
+
+      try {
+        await morpher.russian.adjectivize();
+      } catch (error) {
+        assert.instanceOf(error, MorpherError);
+      }
+
+    });
+
+  });
+
 });

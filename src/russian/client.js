@@ -105,6 +105,24 @@ class Client {
           return new AdjectiveGenders(data);
         });
   }
+
+  adjectivize(lemma = '') {
+    const params = new Map();
+    params.set('s', lemma);
+
+    const path = this.prefix + '/adjectivize';
+
+    return this.communicator.request(path, params, Communicator.METHOD_GET).
+        then(response => response.json()).
+        then(data => {
+          if (data['message'] && data['code']) {
+            throw new MorpherError(data['message'], data['code']);
+          }
+
+          return data;
+        });
+  }
+
 }
 
 module.exports = Client;
