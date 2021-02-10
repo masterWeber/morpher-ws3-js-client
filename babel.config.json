@@ -15,15 +15,6 @@
   "plugins": [
     "@babel/plugin-transform-arrow-functions",
     "@babel/plugin-proposal-class-properties",
-    "@babel/plugin-transform-classes",
-    [
-      "@babel/plugin-transform-modules-umd",
-      {
-        "exactGlobals": true,
-        "globals": {
-          "index": "Morpher"
-        }
-      }
-    ]
+    "@babel/plugin-transform-classes"
   ]
 }

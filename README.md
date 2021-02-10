@@ -26,6 +26,11 @@ JavaScript-клиент веб-сервиса ["Морфер 3.0"](https://morph
 Веб-сервис ["Морфер 3.0"](https://morpher.ru/ws3/) предусматривает [бесплатное (с ограничениями)](https://morpher.ru/ws3/#limitations)
 и [платное](https://morpher.ru/ws3/buy/) использование. Подробнее смотрите на [сайте проекта](https://morpher.ru).
 
+## Загрузка
+
+* [morpher.js ~5 kB gzipped](https://raw.githubusercontent.com/masterWeber/morpher-ws3-js-client/main/dist/morpher.js)
+* [morpher.min.js ~3 kB gzipped](https://raw.githubusercontent.com/masterWeber/morpher-ws3-js-client/main/dist/morpher.min.js)
+
 ## Установка
 
 ### В браузере:
@@ -237,7 +242,7 @@ $ npm test
 
 e2e:
 ```sh
-$ npm e2e-test
+$ npm test:e2e
 ```
 
 ### Сборка
