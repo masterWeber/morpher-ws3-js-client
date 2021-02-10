@@ -69,6 +69,23 @@ class Client {
           return new NumberSpellingResult(data);
         });
   }
+
+  spellDate(date = '') {
+    const params = new Map();
+    params.set('date', date);
+
+    const path = this.prefix + '/spell-date';
+
+    return this.communicator.request(path, params, Communicator.METHOD_GET).
+        then(response => response.json()).
+        then(data => {
+          if (data['message'] && data['code']) {
+            throw new MorpherError(data['message'], data['code']);
+          }
+
+          return new DateSpellingResult(data);
+        });
+  }
 }
 
 module.exports = Client;

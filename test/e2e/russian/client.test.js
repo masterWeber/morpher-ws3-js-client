@@ -121,4 +121,36 @@ describe('E2E Russian client', function() {
     });
 
   });
+
+  describe('#spellDate()', function() {
+
+    it('should return valid DateSpellingResult', async function() {
+      const result = await morpher.russian.spellDate('2021-01-01');
+
+      assert.equal(result.nominative, 'первое января две тысячи двадцать первого года');
+      assert.equal(result.genitive, 'первого января две тысячи двадцать первого года');
+      assert.equal(result.dative, 'первому января две тысячи двадцать первого года');
+      assert.equal(result.accusative, 'первое января две тысячи двадцать первого года');
+      assert.equal(result.instrumental, 'первым января две тысячи двадцать первого года');
+      assert.equal(result.prepositional, 'первом января две тысячи двадцать первого года');
+
+    });
+
+    it('should throw MorpherError', async function() {
+
+      try {
+        await morpher.russian.spellDate('01.01.2021');
+      } catch (error) {
+        assert.instanceOf(error, MorpherError);
+      }
+
+      try {
+        await morpher.russian.spellDate();
+      } catch (error) {
+        assert.instanceOf(error, MorpherError);
+      }
+
+    });
+
+  });
 });
