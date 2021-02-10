@@ -1,3 +1,3 @@
 'use strict';
 
-module.exports = require('src/morpher');
+module.exports = require('./src/morpher');
