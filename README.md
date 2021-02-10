@@ -28,21 +28,17 @@ JavaScript-клиент веб-сервиса ["Морфер 3.0"](https://morph
 
 ## Установка
 
-В браузере:
+### В браузере:
 ```html
 <script src="morpher.min.js"></script>
 ```
 
-При использовании npm:
+### Node.js
+При использовании [npm](https://www.npmjs.com/):
 ```sh
 npm i morpher-ws3-client
 ```
 Примечание: добавьте `--save`, если вы используете npm < 5.0.0
-
-В node.js:
-```javascript
-const Morpher = require('morpher-ws3-client');
-```
 
 ## Использование
 
@@ -217,3 +213,38 @@ morpher.russian.declension('Нұрсултан Әбішұлы Назарбаев
 * `жатыс`    (`locative`) &mdash; текст в местном падеже;
 * `көмектес` (`instrumental`) &mdash; текст в творительном падеже;
 * `көпше`    (`plural`) &mdash; возвращает объект со свойствами-падежами для текста во множественном числе.
+
+## Разработка
+
+Node: Убедитесь, что [установлена](https://nodejs.org/ru/download/) версия Node.js не ниже ^12. Проверить это можно с помощью node -v.
+
+### Установка
+Сделайте форк репозитория `morpher-ws3-js-client`.
+
+Затем выполните:
+
+```sh
+$ git clone https://github.com/<your-github-username>/morpher-ws3-js-client
+$ cd morpher-ws3-js-client
+```
+
+### Запуск тестов
+
+unit:
+```sh
+$ npm test
+```
+
+e2e:
+```sh
+$ npm e2e-test
+```
+
+### Сборка
+```sh
+$ npm build
+```
+
+## License
+
+[MIT](LICENSE)
