@@ -153,4 +153,27 @@ describe('E2E Russian client', function() {
     });
 
   });
+
+  describe('#adjectiveGenders()', function() {
+
+    it('should return valid AdjectiveGenders', async function() {
+      const result = await morpher.russian.adjectiveGenders('уважаемый');
+
+      assert.equal(result.feminine, 'уважаемая');
+      assert.equal(result.neuter, 'уважаемое');
+      assert.equal(result.plural, 'уважаемые');
+
+    });
+
+    it('should throw MorpherError', async function() {
+
+      try {
+        await morpher.russian.adjectiveGenders();
+      } catch (error) {
+        assert.instanceOf(error, MorpherError);
+      }
+
+    });
+
+  });
 });

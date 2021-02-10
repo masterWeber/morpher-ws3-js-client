@@ -3,6 +3,8 @@
 const Communicator = require('../communicator');
 const DeclensionResult = require('./declension-result');
 const NumberSpellingResult = require('./number-spelling-result');
+const DateSpellingResult = require('./date-spelling-result');
+const AdjectiveGenders = require('./adjective-genders');
 const MorpherError = require('../morpher-error');
 
 class Client {
@@ -13,7 +15,7 @@ class Client {
     this.communicator = communicator;
   }
 
-  declension(phrase, ...flags) {
+  declension(phrase = '', ...flags) {
     const params = new Map();
     params.set('s', phrase);
 
@@ -84,6 +86,23 @@ class Client {
           }
 
           return new DateSpellingResult(data);
+        });
+  }
+
+  adjectiveGenders(lemma = '') {
+    const params = new Map();
+    params.set('s', lemma);
+
+    const path = this.prefix + '/genders';
+
+    return this.communicator.request(path, params, Communicator.METHOD_GET).
+        then(response => response.json()).
+        then(data => {
+          if (data['message'] && data['code']) {
+            throw new MorpherError(data['message'], data['code']);
+          }
+
+          return new AdjectiveGenders(data);
         });
   }
 }
