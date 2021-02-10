@@ -28,12 +28,12 @@ JavaScript-клиент веб-сервиса ["Морфер 3.0"](https://morph
 
 ## Загрузка
 
-* [morpher.js ~5 kB gzipped](https://raw.githubusercontent.com/masterWeber/morpher-ws3-js-client/main/dist/morpher.js)
-* [morpher.min.js ~3 kB gzipped](https://raw.githubusercontent.com/masterWeber/morpher-ws3-js-client/main/dist/morpher.min.js)
+* [morpher.js](https://raw.githubusercontent.com/masterWeber/morpher-ws3-js-client/main/dist/morpher.js) ~5 kB gzipped
+* [morpher.min.js](https://raw.githubusercontent.com/masterWeber/morpher-ws3-js-client/main/dist/morpher.min.js) ~3 kB gzipped
 
 ## Установка
 
-### В браузере:
+### Браузер
 ```html
 <script src="morpher.min.js"></script>
 ```
