@@ -23,8 +23,10 @@ class DeclensionForms {
     this.prepositional = props['П'];
     this['предложный'] = this.prepositional;
 
-    this.prepositional_O = props['П_о'];
-    this['предложный_О'] = this.prepositional_O;
+    if (props['П_о'] !== undefined) {
+      this.prepositional_O = props['П_о'];
+      this['предложный_О'] = this.prepositional_O;
+    }
   }
 
 }
