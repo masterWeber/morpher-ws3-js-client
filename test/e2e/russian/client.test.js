@@ -60,7 +60,7 @@ describe('E2E Russian client', function() {
 
   describe('#spell()', function() {
 
-    it('should return valid ResultDeclension', async function() {
+    it('should return valid NumberSpellingResult', async function() {
       const result = await morpher.russian.spell(200, 'копейка');
 
       assert.equal(result.n.nominative, 'двести');
@@ -90,4 +90,35 @@ describe('E2E Russian client', function() {
 
   });
 
+  describe('#spellOrdinal()', function() {
+
+    it('should return valid NumberSpellingResult', async function() {
+      const result = await morpher.russian.spellOrdinal(200, 'копейка');
+
+      assert.equal(result.n.nominative, 'двухсотая');
+      assert.equal(result.n.genitive, 'двухсотой');
+      assert.equal(result.n.dative, 'двухсотой');
+      assert.equal(result.n.accusative, 'двухсотую');
+      assert.equal(result.n.instrumental, 'двухсотой');
+      assert.equal(result.n.prepositional, 'двухсотой');
+
+      assert.equal(result.unit.nominative, 'копейка');
+      assert.equal(result.unit.genitive, 'копейки');
+      assert.equal(result.unit.dative, 'копейке');
+      assert.equal(result.unit.accusative, 'копейку');
+      assert.equal(result.unit.instrumental, 'копейкой');
+      assert.equal(result.unit.prepositional, 'копейке');
+    });
+
+    it('should throw MorpherError', async function() {
+
+      try {
+        await morpher.russian.spellOrdinal(200);
+      } catch (error) {
+        assert.instanceOf(error, MorpherError);
+      }
+
+    });
+
+  });
 });

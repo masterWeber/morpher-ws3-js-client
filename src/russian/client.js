@@ -52,6 +52,23 @@ class Client {
         });
   }
 
+  spellOrdinal(number = 0, unit = '') {
+    const params = new Map();
+    params.set('n', number);
+    params.set('unit', unit);
+
+    const path = this.prefix + '/spell-ordinal';
+
+    return this.communicator.request(path, params, Communicator.METHOD_GET).
+        then(response => response.json()).
+        then(data => {
+          if (data['message'] && data['code']) {
+            throw new MorpherError(data['message'], data['code']);
+          }
+
+          return new NumberSpellingResult(data);
+        });
+  }
 }
 
 module.exports = Client;
