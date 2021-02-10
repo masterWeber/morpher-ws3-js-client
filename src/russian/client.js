@@ -34,7 +34,7 @@ class Client {
         });
   }
 
-  spell(number, unit) {
+  spell(number = 0, unit = '') {
     const params = new Map();
     params.set('n', number);
     params.set('unit', unit);
