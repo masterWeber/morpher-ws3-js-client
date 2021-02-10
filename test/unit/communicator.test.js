@@ -1,7 +1,7 @@
 'use strict';
 
 const assert = require('chai').assert;
-const Communicator = require('../src/communicator');
+const Communicator = require('../../src/communicator');
 const fetchMock = require('fetch-mock');
 
 describe('Communicator', function() {

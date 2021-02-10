@@ -1,7 +1,7 @@
 'use strict';
 
 const Response = require('node-fetch').Response;
-const Communicator = require('../src/communicator');
+const Communicator = require('../../src/communicator');
 
 class CommunicatorMock extends Communicator {
 

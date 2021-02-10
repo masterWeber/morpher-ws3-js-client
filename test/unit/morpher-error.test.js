@@ -1,7 +1,7 @@
 'use strict';
 
 const assert = require('chai').assert;
-const MorpherError = require('../src/morpher-error');
+const MorpherError = require('../../src/morpher-error');
 
 describe('MorpherError', function() {
 

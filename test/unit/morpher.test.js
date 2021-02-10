@@ -1,9 +1,9 @@
 'use strict';
 
 const assert = require('chai').assert;
-const Morpher = require('../src/morpher');
-const RussianClient = require('../src/russian/client');
-const QazaqClient = require('../src/qazaq/client');
+const Morpher = require('../../src/morpher');
+const RussianClient = require('../../src/russian/client');
+const QazaqClient = require('../../src/qazaq/client');
 
 describe('Morpher', function() {
 

@@ -2,10 +2,10 @@
 
 const assert = require('chai').assert;
 const Response = require('node-fetch').Response;
-const QazaqClient = require('../../src/qazaq/client');
+const QazaqClient = require('../../../src/qazaq/client');
 const CommunicatorMock = require('../communicator-mock');
-const MorpherError = require('../../src/morpher-error');
-const declensionResponseMock = require('./declension-response-mock');
+const MorpherError = require('../../../src/morpher-error');
+const declensionResponseMock = require('../../reponse-mock/qazaq/declension');
 
 describe('Qazaq client', function() {
 

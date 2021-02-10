@@ -2,10 +2,10 @@
 
 const assert = require('chai').assert;
 const Response = require('node-fetch').Response;
-const RussianClient = require('../../src/russian/client');
-const Morpher = require('../../src/morpher');
+const RussianClient = require('../../../src/russian/client');
+const Morpher = require('../../../src/morpher');
 const CommunicatorMock = require('../communicator-mock');
-const MorpherError = require('../../src/morpher-error');
+const MorpherError = require('../../../src/morpher-error');
 
 describe('Russian client', function() {
 
