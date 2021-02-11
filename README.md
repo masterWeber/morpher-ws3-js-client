@@ -1,6 +1,6 @@
 # Morpher
 
-[![Build Status](https://travis-ci.org/masterWeber/morpher-ws3-js-client.svg?branch=main)](https://travis-ci.org/masterWeber/morpher-ws3-js-client)
+[![Build Status](https://travis-ci.com/masterWeber/morpher-ws3-js-client.svg?branch=main)](https://travis-ci.com/masterWeber/morpher-ws3-js-client)
 [![npm version](https://badge.fury.io/js/morpher-ws3-client.svg)](https://badge.fury.io/js/morpher-ws3-client)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/masterWeber/morpher-ws3-client/main/LICENSE)
 [![npm](https://img.shields.io/npm/dt/morpher-ws3-client)](https://npmcharts.com/compare/morpher-ws3-client?interval=30&log=false&minimal=true)
