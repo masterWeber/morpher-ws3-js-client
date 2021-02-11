@@ -6,9 +6,13 @@ const RussianClient = require('../../../src/russian/client');
 const Morpher = require('../../../src/morpher');
 const CommunicatorMock = require('../communicator-mock');
 const spellResponseMock = require('../../reponse-mock/russian/spell');
-const spellOrdinalResponseMock = require('../../reponse-mock/russian/spell-ordinal');
+const spellOrdinalResponseMock = require(
+    '../../reponse-mock/russian/spell-ordinal',
+);
 const spellDateResponseMock = require('../../reponse-mock/russian/spell-date');
-const adjectiveGendersResponseMock = require('../../reponse-mock/russian/adjective-genders');
+const adjectiveGendersResponseMock = require(
+    '../../reponse-mock/russian/adjective-genders',
+);
 const MorpherError = require('../../../src/morpher-error');
 
 describe('Russian client', function() {
@@ -186,22 +190,28 @@ describe('Russian client', function() {
 
       const numberSpellingResult = await client.spell(235, 'рубль');
 
-      assert.equal(numberSpellingResult['n']['родительный'], response['n']['Р']);
+      assert.equal(numberSpellingResult['n']['родительный'],
+          response['n']['Р']);
       assert.equal(numberSpellingResult['n']['genitive'], response['n']['Р']);
 
       assert.equal(numberSpellingResult['n']['дательный'], response['n']['Д']);
       assert.equal(numberSpellingResult['n']['dative'], response['n']['Д']);
 
-      assert.equal(numberSpellingResult['n']['винительный'], response['n']['В']);
+      assert.equal(numberSpellingResult['n']['винительный'],
+          response['n']['В']);
       assert.equal(numberSpellingResult['n']['accusative'], response['n']['В']);
 
-      assert.equal(numberSpellingResult['n']['творительный'], response['n']['Т']);
-      assert.equal(numberSpellingResult['n']['instrumental'], response['n']['Т']);
+      assert.equal(numberSpellingResult['n']['творительный'],
+          response['n']['Т']);
+      assert.equal(numberSpellingResult['n']['instrumental'],
+          response['n']['Т']);
 
       assert.equal(numberSpellingResult['n']['предложный'], response['n']['П']);
-      assert.equal(numberSpellingResult['n']['prepositional'], response['n']['П']);
+      assert.equal(numberSpellingResult['n']['prepositional'],
+          response['n']['П']);
 
-      assert.equal(numberSpellingResult['n']['предложный_О'], response['n']['П_о']);
+      assert.equal(numberSpellingResult['n']['предложный_О'],
+          response['n']['П_о']);
       assert.equal(numberSpellingResult['n']['prepositional_O'],
           response['n']['П_о']);
 
@@ -294,22 +304,28 @@ describe('Russian client', function() {
 
       const numberSpellingResult = await client.spellOrdinal(5, 'колесо');
 
-      assert.equal(numberSpellingResult['n']['родительный'], response['n']['Р']);
+      assert.equal(numberSpellingResult['n']['родительный'],
+          response['n']['Р']);
       assert.equal(numberSpellingResult['n']['genitive'], response['n']['Р']);
 
       assert.equal(numberSpellingResult['n']['дательный'], response['n']['Д']);
       assert.equal(numberSpellingResult['n']['dative'], response['n']['Д']);
 
-      assert.equal(numberSpellingResult['n']['винительный'], response['n']['В']);
+      assert.equal(numberSpellingResult['n']['винительный'],
+          response['n']['В']);
       assert.equal(numberSpellingResult['n']['accusative'], response['n']['В']);
 
-      assert.equal(numberSpellingResult['n']['творительный'], response['n']['Т']);
-      assert.equal(numberSpellingResult['n']['instrumental'], response['n']['Т']);
+      assert.equal(numberSpellingResult['n']['творительный'],
+          response['n']['Т']);
+      assert.equal(numberSpellingResult['n']['instrumental'],
+          response['n']['Т']);
 
       assert.equal(numberSpellingResult['n']['предложный'], response['n']['П']);
-      assert.equal(numberSpellingResult['n']['prepositional'], response['n']['П']);
+      assert.equal(numberSpellingResult['n']['prepositional'],
+          response['n']['П']);
 
-      assert.equal(numberSpellingResult['n']['предложный_О'], response['n']['П_о']);
+      assert.equal(numberSpellingResult['n']['предложный_О'],
+          response['n']['П_о']);
       assert.equal(numberSpellingResult['n']['prepositional_O'],
           response['n']['П_о']);
 
@@ -541,25 +557,29 @@ describe('Russian client', function() {
 
       assert.equal(client.communicator.lastPath, '/russian/adjectivize');
       assert.equal(client.communicator.lastParams.get('s'), 'Ростов');
-      assert.equal(client.communicator.lastHttpMethod,
-          CommunicatorMock.METHOD_GET);
-
-    });
-
-    it('should return an adjective formed from the name of a city or country', async function() {
-
-      const response = ['ростовский'];
-
-      communicatorMock.response = new Response(
-          JSON.stringify(response),
-          {status: 200},
+      assert.equal(
+          client.communicator.lastHttpMethod,
+          CommunicatorMock.METHOD_GET,
       );
 
-      const result = await client.adjectivize('Ростов');
-
-      assert.deepEqual(result, response);
-
     });
+
+    it('should return an adjective formed from the name of a city or country',
+        async function() {
+
+          const response = ['ростовский'];
+
+          communicatorMock.response = new Response(
+              JSON.stringify(response),
+              {status: 200},
+          );
+
+          const result = await client.adjectivize('Ростов');
+
+          assert.deepEqual(result, response);
+
+        },
+    );
 
     it('should throw MorpherError', async function() {
 
@@ -575,6 +595,73 @@ describe('Russian client', function() {
 
       try {
         await client.adjectivize();
+      } catch (err) {
+        assert.instanceOf(err, MorpherError);
+      }
+
+    });
+
+  });
+
+  describe('#addStressMarks()', async function() {
+
+    const communicatorMock = new CommunicatorMock();
+
+    const client = new RussianClient();
+    client.communicator = communicatorMock;
+
+    it('should use the correct parameters', async function() {
+
+      communicatorMock.response = new Response(
+          JSON.stringify('Бе́лки|Белки́ пита́ются бе́лками|белка́ми'),
+          {status: 200},
+      );
+
+      await client.addStressMarks('Белки питаются белками');
+
+      assert.equal(client.communicator.lastPath, '/russian/addstressmarks');
+
+      assert.equal(
+          client.communicator.lastParams.get(CommunicatorMock.CONTENT_BODY_KEY),
+          'Белки питаются белками',
+      );
+
+      assert.equal(
+          client.communicator.lastHttpMethod,
+          CommunicatorMock.METHOD_POST,
+      );
+
+    });
+
+    it('should return the string with the added stresses', async function() {
+
+      const response = 'Бе́лки|Белки́ пита́ются бе́лками|белка́ми';
+
+      communicatorMock.response = new Response(
+          JSON.stringify(response),
+          {status: 200},
+      );
+
+      const result = await client.addStressMarks('Белки питаются белками');
+
+      assert.deepEqual(result, response);
+
+    });
+
+    it('should throw MorpherError', async function() {
+
+      const response = {
+        'code': 6,
+        'message': 'Текст должен передаваться в теле запроса.',
+      };
+
+      communicatorMock.response = new Response(
+          JSON.stringify(response),
+          {status: 400},
+      );
+
+      try {
+        await client.addStressMarks();
       } catch (err) {
         assert.instanceOf(err, MorpherError);
       }

@@ -123,6 +123,23 @@ class Client {
         });
   }
 
+  addStressMarks(text = '') {
+    const params = new Map();
+    params.set(Communicator.CONTENT_BODY_KEY, text);
+
+    const path = this.prefix + '/addstressmarks';
+
+    return this.communicator.request(path, params, Communicator.METHOD_POST).
+        then(response => response.json()).
+        then(data => {
+          if (data['message'] && data['code']) {
+            throw new MorpherError(data['message'], data['code']);
+          }
+
+          return data;
+        });
+  }
+
 }
 
 module.exports = Client;

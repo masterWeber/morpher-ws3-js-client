@@ -198,4 +198,25 @@ describe('E2E Russian client', function() {
 
   });
 
+  describe('#addStressMarks()', function() {
+
+    it('should return valid response', async function() {
+      const result = await morpher.russian.addStressMarks('Белки питаются белками');
+
+      assert.deepEqual(result, 'Бе́лки|Белки́ пита́ются бе́лками|белка́ми');
+
+    });
+
+    it('should throw MorpherError', async function() {
+
+      try {
+        await morpher.russian.addStressMarks();
+      } catch (error) {
+        assert.instanceOf(error, MorpherError);
+      }
+
+    });
+
+  });
+
 });
