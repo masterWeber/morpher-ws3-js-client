@@ -3,6 +3,7 @@
 const Communicator = require('./communicator');
 const RussianClient = require('./russian/client');
 const QazaqClient = require('./qazaq/client');
+const MorpherError = require('./morpher-error');
 
 class Morpher {
 
@@ -33,6 +34,21 @@ class Morpher {
 
   get qazaq() {
     return new QazaqClient(this.communicator);
+  }
+
+  getQueriesLeft() {
+    const path = '/get-queries-left';
+    const params = new Map();
+
+    return this.communicator.request(path, params, Communicator.METHOD_GET).
+        then(response => response.json()).
+        then(data => {
+          if (data['message'] && data['code']) {
+            throw new MorpherError(data['message'], data['code']);
+          }
+
+          return data;
+        });
   }
 
 }
