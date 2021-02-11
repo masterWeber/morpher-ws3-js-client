@@ -72,7 +72,7 @@ morpher.russian.declension('Программист').then(
         console.log(result.plural.genitive);                 // Программистов
     },
     error => {
-        if (typeof error === 'MorpherError')
+        if (typeof error === 'MorpherError') {
             console.error(error.message + ' Код ошибки: ' + error.code);
         } else {
             console.error(error);
