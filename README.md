@@ -16,7 +16,7 @@ JavaScript-клиент веб-сервиса ["Морфер 3.0"](https://morph
 * [Пропись дат в любом падеже](#russian-spell-date) («пятого мая две тысячи первого года»);
 * [Склонение прилагательных по родам](#russian-adjective-genders);
 * [Образование прилагательных от названий городов и стран](#russian-adjectivize);
-* Расстановка ударений в текстах.
+* [Расстановка ударений в текстах](#add-stress-marks).
 
 На казахском языке:
 
@@ -27,8 +27,7 @@ JavaScript-клиент веб-сервиса ["Морфер 3.0"](https://morph
 
 ## Загрузка
 
-* [morpher.js](https://raw.githubusercontent.com/masterWeber/morpher-ws3-js-client/main/dist/morpher.js) ~5 kB gzipped
-* [morpher.min.js](https://raw.githubusercontent.com/masterWeber/morpher-ws3-js-client/main/dist/morpher.min.js) ~3 kB gzipped
+* [morpher.zip](https://github.com/masterWeber/morpher-ws3-js-client/releases/latest/download/morpher.zip)
 
 ## Установка
 
@@ -65,8 +64,6 @@ const morpher = new Morpher();
 
 Для склонения слов и словосочетаний используется метод `russian.declension(phrase, flags)`:
 ```javascript
-const morpher = new Morpher();
- 
 morpher.russian.declension('Программист').then(
     result => {
         console.log(result['родительный']);                  // Программиста
@@ -113,8 +110,6 @@ morpher.russian.declension('Программист').then(
 Для повышения качества склонения вы можете сообщить веб-сервису дополнительную информацию через флаги.
 Несколько флагов можно передать через запятую:
 ```javascript
-const morpher = new Morpher();
- 
 morpher.russian.declension('Слепов Сергей Николаевич', Morpher.FLAG_NAME, Morpher.FLAG_MASCULINE).then(
     result => {
         console.log(result['родительный']); // Слепова Сергея Николаевича
@@ -155,8 +150,6 @@ morpher.russian.declension('Слепов Сергей Николаевич', Mor
 (тысяча сто двадцать пять) и согласование единицы измерения с предшествующем
 числом (1 попугай, 2 попугая, 5 попугаев):
 ```javascript
-const morpher = new Morpher();
- 
 morpher.russian.spell(235, 'рубль').then(
     result => {
         console.log(result['n']['родительный']);    // двухсот тридцати пяти
@@ -181,8 +174,6 @@ morpher.russian.spell(235, 'рубль').then(
 Метод `russian.spellOrdinal(number, unit)` похож на `russian.spell(number, unit)`, 
 но возвращает пропись числа в форме порядкового числительного:
 ```javascript
-const morpher = new Morpher();
- 
 morpher.russian.spellOrdinal(5, 'колесо').then(
     result => {
         console.log(result['n']['родительный']);    // пятого
@@ -200,8 +191,6 @@ morpher.russian.spellOrdinal(5, 'колесо').then(
 
 Метод `russian.spellDate(date)` склоняет по падежам дату, заданную в формате ГГГГ-ММ-ДД:
 ```javascript
-const morpher = new Morpher();
- 
 morpher.russian.spellDate('2019-06-29').then(
     result => {
         console.log(result['родительный']);  // двадцать девятого июня две тысячи девятнадцатого года
@@ -220,8 +209,6 @@ morpher.russian.spellDate('2019-06-29').then(
 Метод `russian.adjectiveGenders(lemma)` склоняет данное ему прилагательное, преобразуя его 
 из мужского рода в женский, средний и во множественное число:
 ```javascript
-const morpher = new Morpher();
- 
 morpher.russian.adjectiveGenders('уважаемый').then(
     result => {
         console.log(result['женский']);    // уважаемая
@@ -252,8 +239,6 @@ morpher.russian.adjectiveGenders('уважаемый').then(
 
 Пример:
 ```javascript
-const morpher = new Morpher();
- 
 morpher.russian.adjectivize('Москва').then(
     result => {
         console.log(result); // ['московский']
@@ -262,14 +247,36 @@ morpher.russian.adjectivize('Москва').then(
 ```
 Метод возвращает массив строк. Что они означают, описано [здесь](https://morpher.ru/adjectivizer/).
 
+<p id='add-stress-marks'></p>
+
+### Расстановка ударений в текстах
+
+Метод `russian.addstressmarks(text)` расставляет ударения в текстах на русском языке:
+```javascript
+morpher.russian.addstressmarks('Три девицы под окном').then(
+    result => {
+        console.log(result); // Три деви́цы под окно́м
+    }
+);
+```
+Ударение отмечается символом с кодом U+0301, который вставляется сразу после ударной гласной. 
+Односложные слова не получают знака ударения, за исключением случаев, когда предлог или частица 
+несет на себе ударение: за́ руку, не́ за что. Варианты прочтения разделяются вертикальной чертой, 
+например:
+```javascript
+morpher.russian.addstressmarks('Белки питаются белками').then(
+    result => {
+        console.log(result); // Бе́лки|Белки́ пита́ются бе́лками|белка́ми
+    }
+);
+```
+
 <p id='qazaq-declension'></p>
 
 ### Склонение по падежам, числам и лицам на казахском языке
 
 Для склонения слов и словосочетаний используется метод `qazaq.declension(phrase)`:
 ```javascript
-const morpher = new Morpher();
- 
 morpher.qazaq.declension('Нұрсултан Әбішұлы Назарбаев').then(
     result => {
         console.log(result['ілік']);          // Нұрсултан Әбішұлы Назарбаевтың
