@@ -16,7 +16,7 @@ describe('Russian client', function() {
     const client = new RussianClient();
     client.communicator = communicatorMock;
 
-    it('should be used the correct parameters', async function() {
+    it('should use the correct parameters', async function() {
 
       const response = {
         'Р': 'Любови Соколовой',
@@ -154,7 +154,7 @@ describe('Russian client', function() {
     const client = new RussianClient();
     client.communicator = communicatorMock;
 
-    it('should be used the correct parameters', async function() {
+    it('should use the correct parameters', async function() {
 
       const response = {
         'n': {

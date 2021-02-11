@@ -16,7 +16,7 @@ describe('Qazaq client', function() {
     const client = new QazaqClient();
     client.communicator = communicatorMock;
 
-    it('should be used the correct parameters', async function() {
+    it('should use the correct parameters', async function() {
 
       communicatorMock.response = new Response(
           JSON.stringify(declensionResponseMock),
