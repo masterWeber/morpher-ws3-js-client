@@ -9,6 +9,7 @@ class Communicator {
   static METHOD_GET = 'GET';
   static METHOD_DELETE = 'DELETE';
   static METHOD_POST = 'POST';
+  static CONTENT_BODY_KEY = 'Content-Body';
 
   baseUrl = 'https://ws3.morpher.ru';
   token = null;
@@ -34,13 +35,17 @@ class Communicator {
     }
   }
 
-  request(path, params, method) {
+  request(path, params = new Map(), method = Communicator.METHOD_GET) {
 
-    const url = this.buildUrl(path, params);
+    const isContentBody = this.isContentBody(params, method);
 
-    const contentType = this.isPost(method)
-        ? 'application/x-www-form-urlencoded'
-        : 'application/json';
+    const url = isContentBody
+        ? this.buildUrl(path)
+        : this.buildUrl(path, params);
+
+    const contentType = isContentBody
+        ? 'text/plain; charset=utf-8'
+        : 'application/x-www-form-urlencoded';
 
     const init = {
       method: method,
@@ -49,6 +54,10 @@ class Communicator {
         'Accept': 'application/json',
       },
     };
+
+    if (isContentBody) {
+      init.body = params.get(Communicator.CONTENT_BODY_KEY);
+    }
 
     return new Promise((resolve, reject) => {
       const timer = setTimeout(
@@ -66,7 +75,7 @@ class Communicator {
     });
   }
 
-  buildUrl(path, params) {
+  buildUrl(path, params = new Map()) {
     let url = new URL(path, this.baseUrl);
 
     params.forEach((value, name) => {
@@ -90,6 +99,11 @@ class Communicator {
 
   get fetcher() {
     return this._fetcher;
+  }
+
+  isContentBody(params, method) {
+    return this.isPost(method) && params.size === 1 &&
+        params.has(Communicator.CONTENT_BODY_KEY);
   }
 
   isPost(method) {

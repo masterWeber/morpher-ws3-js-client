@@ -108,7 +108,85 @@ describe('Communicator', function() {
           communicator.buildUrl(path, params),
           baseUrl + path + '?key_1=value&key_2=value_1%2Cvalue_2',
       );
+
+      communicator = new Communicator();
+      assert.equal(
+          communicator.buildUrl(path),
+          communicator.baseUrl + path,
+      );
     });
+
+  });
+
+  describe('#isContentBody()', function() {
+
+    const communicator = new Communicator();
+
+    it('should return false when no parameters are specified', function() {
+      return assert.equal(
+          communicator.isContentBody(new Map(), Communicator.METHOD_POST),
+          false,
+      );
+    });
+
+    it('should return false when the \'Content-Body\' parameter is not specified',
+        function() {
+          const params = new Map();
+          params.set('k', 0);
+
+          return assert.equal(
+              communicator.isContentBody(params, Communicator.METHOD_POST),
+              false,
+          );
+        },
+    );
+
+    it('should return false when more than one parameter is specified',
+        function() {
+          const params = new Map();
+          params.set('k', 0);
+          params.set(Communicator.CONTENT_BODY_KEY, 'текст');
+
+          return assert.equal(
+              communicator.isContentBody(params, Communicator.METHOD_POST),
+              false,
+          );
+        },
+    );
+
+    it('should return false when the method is not \'post\'',
+        function() {
+          const params = new Map();
+          params.set(Communicator.CONTENT_BODY_KEY, 'текст');
+
+          assert.equal(
+              communicator.isContentBody(params, Communicator.METHOD_GET),
+              false,
+          );
+
+          assert.equal(
+              communicator.isContentBody(params, 'put'),
+              false,
+          );
+
+          assert.equal(
+              communicator.isContentBody(params, 'delete'),
+              false,
+          );
+        },
+    );
+
+    it('should return true when the \'post\' method, the parameter is the only one, and it\'s named \'Content-Body\'',
+        function() {
+          const params = new Map();
+          params.set(Communicator.CONTENT_BODY_KEY, 'текст');
+
+          assert.equal(
+              communicator.isContentBody(params, Communicator.METHOD_POST),
+              true,
+          );
+        },
+    );
 
   });
 
