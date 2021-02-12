@@ -2,6 +2,7 @@
 
 const Communicator = require('./communicator');
 const RussianClient = require('./russian/client');
+const UkrainianClient = require('./ukrainian/client');
 const QazaqClient = require('./qazaq/client');
 const MorpherError = require('./morpher-error');
 
@@ -30,6 +31,10 @@ class Morpher {
 
   get russian() {
     return new RussianClient(this.communicator);
+  }
+
+  get ukrainian() {
+    return new UkrainianClient(this.communicator);
   }
 
   get qazaq() {

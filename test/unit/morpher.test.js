@@ -3,6 +3,7 @@
 const assert = require('chai').assert;
 const Morpher = require('../../src/morpher');
 const RussianClient = require('../../src/russian/client');
+const UkrainianClient = require('../../src/ukrainian/client');
 const QazaqClient = require('../../src/qazaq/client');
 const CommunicatorMock = require('./communicator-mock');
 const MorpherError = require('../../src/morpher-error');
@@ -55,6 +56,10 @@ describe('Morpher', function() {
 
     it('field \'russian\' instance of RussianClient', function() {
       return assert.instanceOf(morpher.russian, RussianClient);
+    });
+
+    it('field \'ukrainian\' instance of UkrainianClient', function() {
+      return assert.instanceOf(morpher.ukrainian, UkrainianClient);
     });
 
     it('field \'qazaq\' instance of QazaqClient', function() {
