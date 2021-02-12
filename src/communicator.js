@@ -39,7 +39,11 @@ class Communicator {
 
     const isContentBody = this.isContentBody(params, method);
 
-    const url = isContentBody
+    const requestParameters = isContentBody
+        ? params.get(Communicator.CONTENT_BODY_KEY)
+        : this.buildRequestParams(params);
+
+    const url = this.isPost(method)
         ? this.buildUrl(path)
         : this.buildUrl(path, params);
 
@@ -55,8 +59,8 @@ class Communicator {
       },
     };
 
-    if (isContentBody) {
-      init.body = params.get(Communicator.CONTENT_BODY_KEY);
+    if (this.isPost(method)) {
+      init.body = requestParameters;
     }
 
     return new Promise((resolve, reject) => {
@@ -87,6 +91,11 @@ class Communicator {
     }
 
     return url.toString();
+  }
+
+  buildRequestParams(params) {
+    let sp = new URLSearchParams(params);
+    return sp.toString();
   }
 
   _fetcher(url, init) {

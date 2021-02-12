@@ -5,6 +5,7 @@ const DeclensionResult = require('./declension-result');
 const NumberSpellingResult = require('./number-spelling-result');
 const DateSpellingResult = require('./date-spelling-result');
 const AdjectiveGenders = require('./adjective-genders');
+const UserDict = require('./user-dict');
 const MorpherError = require('../morpher-error');
 
 class Client {
@@ -13,6 +14,7 @@ class Client {
 
   constructor(communicator) {
     this.communicator = communicator;
+    this.userDict = new UserDict(communicator);
   }
 
   declension(phrase = '', ...flags) {
