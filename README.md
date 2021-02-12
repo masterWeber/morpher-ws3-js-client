@@ -286,7 +286,7 @@ morpher.russian.addstressmarks('Белки питаются белками').the
 
 ### Склонение по падежам на украинском языке
 
-Украинский вариант метода склонения `ukrainian.declension(phrase, flags)`:
+Украинский вариант склонения &mdash; метод `ukrainian.declension(phrase, flags)`:
 ```javascript
 morpher.ukrainian.declension('Крутько Катерина Володимирiвна').then(
     result => {
