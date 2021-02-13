@@ -7,9 +7,9 @@
 
 JavaScript-клиент веб-сервиса ["Морфер 3.0"](https://morpher.ru/ws3/)
 
-Библиотека реализует следующие функции веб-сервиса
+### Библиотека реализует следующие функции веб-сервиса
 
-На русском языке:
+#### На русском языке:
 
 * [Склонение по падежам](#russian-declension);
 * [Выделение в строке фамилии, имени и отчества](#russian-full-name);
@@ -20,20 +20,29 @@ JavaScript-клиент веб-сервиса ["Морфер 3.0"](https://morph
 * [Образование прилагательных от названий городов и стран](#russian-adjectivize);
 * [Расстановка ударений в текстах](#add-stress-marks).
 
-На украинском языке:
+#### На украинском языке:
 
 * [Склонение по падежам](#ukrainian-declension);
 * [Пропись чисел и склонение единицы измерения](#ukrainian-spell) (3 рублі, 10 листів).
 
-На казахском языке:
+#### На казахском языке:
 
 * [Склонение по падежам, числам и лицам](#qazaq-declension).
 
-Общие:
+#### Общие:
 
 * [Остаток запросов на данный момент](#get-queries-left).
 
-Веб-сервис ["Морфер 3.0"](https://morpher.ru/ws3/) предусматривает [бесплатное (с ограничениями)](https://morpher.ru/ws3/#limitations)
+### Пользовательский словарь
+
+Веб-сервис поддерживает исправление склонения по требованию пользователя. Для этого имеются 3 метода:
+
+* [Получить список всех добавленных исправлений](#userdict-get);
+* [Добавить или изменить исправление](#userdict-post);
+* [Удалить исправление](#userdict-delete).
+
+Веб-сервис ["Морфер 3.0"](https://morpher.ru/ws3/)
+предусматривает [бесплатное (с ограничениями)](https://morpher.ru/ws3/#limitations)
 и [платное](https://morpher.ru/ws3/buy/) использование. Подробнее смотрите на [сайте проекта](https://morpher.ru).
 
 ## Загрузка
@@ -43,51 +52,58 @@ JavaScript-клиент веб-сервиса ["Морфер 3.0"](https://morph
 ## Установка
 
 ### Браузер
+
 ```html
+
 <script src="morpher.min.js"></script>
 ```
 
 ### Node.js
+
 При использовании [npm](https://www.npmjs.com/):
+
 ```sh
 npm i morpher-ws3-client
 ```
+
 Примечание: добавьте `--save`, если вы используете npm < 5.0.0
 
 ## Использование
 
 ```javascript
 const morpher = new Morpher({
-    baseUrl: 'https://localhost', // по умолчанию https://ws3.morpher.ru
-    token: 'YOUR_TOKEN',          // по умолчанию null
-    timeoutMs: 1000,              // по умолчанию 3000
+  baseUrl: 'https://localhost', // по умолчанию https://ws3.morpher.ru
+  token: 'YOUR_TOKEN',          // по умолчанию null
+  timeoutMs: 1000,              // по умолчанию 3000
 });
 ```
 
-Можно вызвать конструктор без аргументов, в этом случае будут использоваться
-параметры по умолчанию.
+Можно вызвать конструктор без аргументов, в этом случае будут использоваться параметры по умолчанию.
+
 ```javascript
 const morpher = new Morpher();
 ```
+
 <p id="russian-declension"></p>
 
 ### Склонение по падежам на русском языке
 
 Для склонения слов и словосочетаний используется метод `russian.declension(phrase, flags)`:
+
 ```javascript
 morpher.russian.declension('Программист').then(
     result => {
-        console.log(result['родительный']);                  // Программиста
-        console.log(result['множественное']['родительный']); // Программистов
-        console.log(result.множественное.родительный);       // Программистов
-        console.log(result.plural.genitive);                 // Программистов
+      console.log(result['родительный']);                  // Программиста
+      console.log(result['множественное']['родительный']); // Программистов
+      console.log(result.множественное.родительный);       // Программистов
+      console.log(result.plural.genitive);                 // Программистов
     },
     error => {
-        if (typeof error === 'MorpherError') {
-            console.error(error.message + ' Код ошибки: ' + error.code);
-        } else {
-            console.error(error);
-        }
+      if (typeof error === 'MorpherError') {
+        console.error(error.message + ' Код ошибки: ' + error.code);
+      } else {
+        console.error(error);
+      }
     }
 );
 ```
@@ -118,13 +134,14 @@ morpher.russian.declension('Программист').then(
 * Ростов в творительном падеже будет Ростовым, если это фамилия, и Ростовом, если это город;
 * тестер в винительном падеже будет тестера, если это человек, и тестер, если имеется в виду прибор.
 
-Для повышения качества склонения вы можете сообщить веб-сервису дополнительную информацию через флаги.
-Несколько флагов можно передать через запятую:
+Для повышения качества склонения вы можете сообщить веб-сервису дополнительную информацию через флаги. Несколько флагов
+можно передать через запятую:
+
 ```javascript
 morpher.russian.declension('Слепов Сергей Николаевич', Morpher.FLAG_NAME, Morpher.FLAG_MASCULINE).then(
     result => {
-        console.log(result['родительный']); // Слепова Сергея Николаевича
-        console.log(result.fullName.name);  // Сергей
+      console.log(result['родительный']); // Слепова Сергея Николаевича
+      console.log(result.fullName.name);  // Сергей
     }
 );
 ```
@@ -142,7 +159,8 @@ morpher.russian.declension('Слепов Сергей Николаевич', Mor
 
 ### Выделение в строке фамилии, имени и отчества
 
-Если входная строка распознана как ФИО, то объект `DeclensionResult` будет содержать разбивку строки на фамилию, имя и отчество:
+Если входная строка распознана как ФИО, то объект `DeclensionResult` будет содержать разбивку строки на фамилию, имя и
+отчество:
 
 * `родительный`   (`genitive`) &mdash; ФИО в родительном падеже;
 * `дательный`     (`dative`) &mdash; ФИО в дательном падеже;
@@ -158,16 +176,16 @@ morpher.russian.declension('Слепов Сергей Николаевич', Mor
 ### Пропись чисел и согласование с числом
 
 Метод `russian.spell(number, unit)` решает задачу получения прописи числа
-(тысяча сто двадцать пять) и согласование единицы измерения с предшествующем
-числом (1 попугай, 2 попугая, 5 попугаев):
+(тысяча сто двадцать пять) и согласование единицы измерения с предшествующем числом (1 попугай, 2 попугая, 5 попугаев):
+
 ```javascript
 morpher.russian.spell(235, 'рубль').then(
     result => {
-        console.log(result['n']['родительный']);    // двухсот тридцати пяти
-        console.log(result.n.genitive);             // двухсот тридцати пяти
-        
-        console.log(result['unit']['родительный']); // рублей
-        console.log(result.unit.genitive);          // рублей
+      console.log(result['n']['родительный']);    // двухсот тридцати пяти
+      console.log(result.n.genitive);             // двухсот тридцати пяти
+
+      console.log(result['unit']['родительный']); // рублей
+      console.log(result.unit.genitive);          // рублей
     }
 );
 ```
@@ -182,16 +200,17 @@ morpher.russian.spell(235, 'рубль').then(
 
 ### Пропись чисел в виде порядковых числительных
 
-Метод `russian.spellOrdinal(number, unit)` похож на `russian.spell(number, unit)`, 
-но возвращает пропись числа в форме порядкового числительного:
+Метод `russian.spellOrdinal(number, unit)` похож на `russian.spell(number, unit)`, но возвращает пропись числа в форме
+порядкового числительного:
+
 ```javascript
 morpher.russian.spellOrdinal(5, 'колесо').then(
     result => {
-        console.log(result['n']['родительный']);    // пятого
-        console.log(result['unit']['родительный']); // колеса
-        
-        console.log(result.n.genitive);             // пятого
-        console.log(result.unit.genitive);          // колеса
+      console.log(result['n']['родительный']);    // пятого
+      console.log(result['unit']['родительный']); // колеса
+
+      console.log(result.n.genitive);             // пятого
+      console.log(result.unit.genitive);          // колеса
     }
 );
 ```
@@ -201,14 +220,15 @@ morpher.russian.spellOrdinal(5, 'колесо').then(
 ### Пропись дат
 
 Метод `russian.spellDate(date)` склоняет по падежам дату, заданную в формате ГГГГ-ММ-ДД:
+
 ```javascript
 morpher.russian.spellDate('2019-06-29').then(
     result => {
-        console.log(result['родительный']);  // двадцать девятого июня две тысячи девятнадцатого года
-        console.log(result.genitive);        // двадцать девятого июня две тысячи девятнадцатого года
-        
-        console.log(result['творительный']); // двадцать девятому июня две тысячи девятнадцатого года
-        console.log(result.instrumental);    // двадцать девятому июня две тысячи девятнадцатого года
+      console.log(result['родительный']);  // двадцать девятого июня две тысячи девятнадцатого года
+      console.log(result.genitive);        // двадцать девятого июня две тысячи девятнадцатого года
+
+      console.log(result['творительный']); // двадцать девятому июня две тысячи девятнадцатого года
+      console.log(result.instrumental);    // двадцать девятому июня две тысячи девятнадцатого года
     }
 );
 ```
@@ -217,45 +237,48 @@ morpher.russian.spellDate('2019-06-29').then(
 
 ### Склонение прилагательных по родам
 
-Метод `russian.adjectiveGenders(lemma)` склоняет данное ему прилагательное, преобразуя его 
-из мужского рода в женский, средний и во множественное число:
+Метод `russian.adjectiveGenders(lemma)` склоняет данное ему прилагательное, преобразуя его из мужского рода в женский,
+средний и во множественное число:
+
 ```javascript
 morpher.russian.adjectiveGenders('уважаемый').then(
     result => {
-        console.log(result['женский']);    // уважаемая
-        console.log(result.feminine);      // уважаемая
+      console.log(result['женский']);    // уважаемая
+      console.log(result.feminine);      // уважаемая
 
-        console.log(result.средний);       // уважаемое
-        console.log(result.neuter);        // уважаемое
+      console.log(result.средний);       // уважаемое
+      console.log(result.neuter);        // уважаемое
 
-        console.log(result.множественное); // уважаемые
-        console.log(result.plural);        // уважаемые
+      console.log(result.множественное); // уважаемые
+      console.log(result.plural);        // уважаемые
     }
 );
 ```
+
 Требования к входному прилагательному:
 
 * Оно должно быть в мужском роде, в единственном числе.
 * Оно должно быть полным, т.е. "полный", а не "полон".
-* Оно должно быть одним словом. Внутри слова допустимы дефис и 
-апостроф: рабоче-крестьянский, Кот-д'Ивуарский. Вокруг слова допустимы пробелы, 
-кавычки и другие знаки.
+* Оно должно быть одним словом. Внутри слова допустимы дефис и апостроф: рабоче-крестьянский, Кот-д'Ивуарский. Вокруг
+  слова допустимы пробелы, кавычки и другие знаки.
 
 <p id="russian-adjectivize"></p>
 
 ### Образование прилагательных
 
-Метод `russian.adjectivize(lemma)` образует прилагательные от названий городов и 
-стран: Москва – московский, Ростов – ростовский, Швеция – шведский, Греция – греческий.
+Метод `russian.adjectivize(lemma)` образует прилагательные от названий городов и стран: Москва – московский, Ростов –
+ростовский, Швеция – шведский, Греция – греческий.
 
 Пример:
+
 ```javascript
 morpher.russian.adjectivize('Москва').then(
     result => {
-        console.log(result); // ['московский']
+      console.log(result); // ['московский']
     }
 );
 ```
+
 Метод возвращает массив строк. Что они означают, описано [здесь](https://morpher.ru/adjectivizer/).
 
 <p id='add-stress-marks'></p>
@@ -263,21 +286,23 @@ morpher.russian.adjectivize('Москва').then(
 ### Расстановка ударений в текстах
 
 Метод `russian.addstressmarks(text)` расставляет ударения в текстах на русском языке:
+
 ```javascript
 morpher.russian.addstressmarks('Три девицы под окном').then(
     result => {
-        console.log(result); // Три деви́цы под окно́м
+      console.log(result); // Три деви́цы под окно́м
     }
 );
 ```
-Ударение отмечается символом с кодом U+0301, который вставляется сразу после ударной гласной. 
-Односложные слова не получают знака ударения, за исключением случаев, когда предлог или частица 
-несет на себе ударение: за́ руку, не́ за что. Варианты прочтения разделяются вертикальной чертой, 
-например:
+
+Ударение отмечается символом с кодом U+0301, который вставляется сразу после ударной гласной. Односложные слова не
+получают знака ударения, за исключением случаев, когда предлог или частица несет на себе ударение: за́ руку, не́ за что.
+Варианты прочтения разделяются вертикальной чертой, например:
+
 ```javascript
 morpher.russian.addstressmarks('Белки питаются белками').then(
     result => {
-        console.log(result); // Бе́лки|Белки́ пита́ются бе́лками|белка́ми
+      console.log(result); // Бе́лки|Белки́ пита́ются бе́лками|белка́ми
     }
 );
 ```
@@ -287,12 +312,13 @@ morpher.russian.addstressmarks('Белки питаются белками').the
 ### Склонение по падежам на украинском языке
 
 Украинский вариант склонения &mdash; метод `ukrainian.declension(phrase, flags)`:
+
 ```javascript
 morpher.ukrainian.declension('Крутько Катерина Володимирiвна').then(
     result => {
-        console.log(result['родовий']); // Крутько Катерини Володимирівни
-        console.log(result.давальний);  // Крутько Катерині Володимирівні
-        console.log(result.vocative);   // Крутько Катерино Володимирівно
+      console.log(result['родовий']); // Крутько Катерини Володимирівни
+      console.log(result.давальний);  // Крутько Катерині Володимирівні
+      console.log(result.vocative);   // Крутько Катерино Володимирівно
     },
 );
 ```
@@ -318,7 +344,7 @@ morpher.ukrainian.declension('Крутько Катерина Володимир
 ```javascript
 morpher.ukrainian.declension('Любовь Соколова', Morpher.FLAG_FEMININE).then(
     result => {
-        console.log(result['родовий']); // Любовь Соколової
+      console.log(result['родовий']); // Любовь Соколової
     }
 );
 ```
@@ -334,17 +360,18 @@ morpher.ukrainian.declension('Любовь Соколова', Morpher.FLAG_FEMIN
 
 ### Пропись чисел и согласование с числом на украинском языке
 
-Метод `ukrainian.spell(number, unit)` решает задачу получения прописи числа 
-(одна тисяча сто двадцять п'ять) и согласование единицы измерения с предшествующем 
-числом (один попугай, два попугайи, п'ять попугайів):
+Метод `ukrainian.spell(number, unit)` решает задачу получения прописи числа
+(одна тисяча сто двадцять п'ять) и согласование единицы измерения с предшествующем числом (один попугай, два попугайи,
+п'ять попугайів):
+
 ```javascript
 morpher.ukrainian.spell(235, 'рубль').then(
     result => {
-        console.log(result['n']['родовий']);    // двохсот тридцяти п'яти
-        console.log(result.n.genitive);         // двохсот тридцяти п'яти
-        
-        console.log(result['unit']['родовий']); // рублів
-        console.log(result.unit.genitive);      // рублів
+      console.log(result['n']['родовий']);    // двохсот тридцяти п'яти
+      console.log(result.n.genitive);         // двохсот тридцяти п'яти
+
+      console.log(result['unit']['родовий']); // рублів
+      console.log(result.unit.genitive);      // рублів
     }
 );
 ```
@@ -354,14 +381,15 @@ morpher.ukrainian.spell(235, 'рубль').then(
 ### Склонение по падежам, числам и лицам на казахском языке
 
 Для склонения слов и словосочетаний используется метод `qazaq.declension(phrase)`:
+
 ```javascript
 morpher.qazaq.declension('Нұрсултан Әбішұлы Назарбаев').then(
     result => {
-        console.log(result['ілік']);          // Нұрсултан Әбішұлы Назарбаевтың
-        console.log(result.genitive);         // Нұрсултан Әбішұлы Назарбаевтың
-        
-        console.log(result['көпше']['ілік']); // Нұрсултан Әбішұлы Назарбаевтартың
-        console.log(result.plural.genitive);  // Нұрсултан Әбішұлы Назарбаевтартың
+      console.log(result['ілік']);          // Нұрсултан Әбішұлы Назарбаевтың
+      console.log(result.genitive);         // Нұрсултан Әбішұлы Назарбаевтың
+
+      console.log(result['көпше']['ілік']); // Нұрсултан Әбішұлы Назарбаевтартың
+      console.log(result.plural.genitive);  // Нұрсултан Әбішұлы Назарбаевтартың
     }
 );
 ```
@@ -381,21 +409,105 @@ morpher.qazaq.declension('Нұрсултан Әбішұлы Назарбаев')
 
 ### Остаток запросов
 
-Метод `getQueriesLeft()` возвращает остаток запросов на данный момент.
-Лимит на запросы восстанавливается в `00:00 UTC`.
+Метод `getQueriesLeft()` возвращает остаток запросов на данный момент. Лимит на запросы восстанавливается в `00:00 UTC`.
+
 ```javascript
 morpher.getQueriesLeft().then(
     result => {
-        console.log(result); // 100
+      console.log(result); // 100
+    }
+);
+```
+
+<p id="userdict-get"></p>
+
+### Получить список исправлений
+
+Для того чтобы получить список всех исправлений, нужно использовать метод `russian.userDict.getAll()`
+или `ukrainian.userDict.getAll()`:
+
+```javascript
+morpher.russian.userDict.getAll().then(
+    result => {
+      console.log(result); // Массив с объектами СorrectionEntry
+    }
+);
+```
+
+Объект `СorrectionEntry` со следующими свойствами:
+
+* `singular` &mdash; объект `CorrectionForms` с формами в единственном числе;
+* `plural`   &mdash; объект `CorrectionForms` с формами во множественном числе;
+* `gender`   &mdash; род (мужской, женский или средний).
+
+Объект `CorrectionForms` со следующими свойствами:
+
+* `именительный`  (`nominative`) &mdash; текст в именительном падеже;
+* `родительный`   (`genitive`) &mdash; текст в родительном падеже;
+* `дательный`     (`dative`) &mdash; текст в дательном падеже;
+* `винительный`   (`accusative`) &mdash; текст в винительном падеже;
+* `творительный`  (`instrumental`) &mdash; текст в творительном падеже;
+* `предложный`    (`prepositional`) &mdash; текст в предложном падеже;
+* `местный`       (`locative`) &mdash; текст в местном падеже;
+
+<p id="userdict-post"></p>
+
+### Добавить или изменить исправление
+
+Для добавления или изменения исправления нужно использовать метод
+`russian.userDict.addOrUpdate(correctionEntry)`
+(`ukrainian.userDict.addOrUpdate(correctionEntry)` для украинского языка соответственно).
+
+```javascript
+const correctionEntry = {
+  singular: {
+    nominative: 'Кошка',
+    genitive: 'Пантере',
+  },
+  plural: {
+    genitive: 'Пантерам',
+  },
+};
+
+morpher.russian.userDict.addOrUpdate(correctionEntry).then(
+    result => {
+      console.log(result); // true
+    }
+);
+```
+
+<p id="userdict-delete"></p>
+
+### Удаление исправления
+
+Для того чтобы удалить исправление, достаточно передать строку в именительном падеже в
+метод `russian.userDict.remove(nominativeForm)`:
+
+```javascript
+morpher.russian.userDict.remove('Кошка').then(
+    result => {
+      console.log(result); // true
+    }
+);
+```
+
+Для украинского языка:
+
+```javascript
+morpher.ukrainian.userDict.remove('Кiшка').then(
+    result => {
+      console.log(result); // true
     }
 );
 ```
 
 ## Разработка
 
-Node: Убедитесь, что [установлена](https://nodejs.org/ru/download/) версия Node.js не ниже ^12. Проверить это можно с помощью node -v.
+Node: Убедитесь, что [установлена](https://nodejs.org/ru/download/) версия Node.js не ниже ^12. Проверить это можно с
+помощью node -v.
 
 ### Установка
+
 Сделайте форк репозитория `morpher-ws3-js-client`.
 
 Затем выполните:
@@ -408,16 +520,19 @@ $ cd morpher-ws3-js-client
 ### Запуск тестов
 
 unit:
+
 ```sh
 $ npm test
 ```
 
 e2e:
+
 ```sh
 $ npm test:e2e
 ```
 
 ### Сборка
+
 ```sh
 $ npm build
 ```
