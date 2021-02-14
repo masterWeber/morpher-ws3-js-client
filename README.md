@@ -116,7 +116,7 @@ morpher.russian.declension('Программист').then(
 * `винительный`   (`accusative`) &mdash; текст в винительном падеже;
 * `творительный`  (`instrumental`) &mdash; текст в творительном падеже;
 * `предложный`    (`prepositional`) &mdash; текст в предложном падеже;
-* `множественное` (`plural`) &mdash; возвращает объект со свойствами-падежами для текста во множественном числе.
+* `множественное` (`plural`) &mdash; объект со свойствами-падежами для текста во множественном числе.
 
 При использовании платного аккаунта на сервисе, определяются дополнительные свойства:
 
@@ -237,7 +237,7 @@ morpher.russian.spellDate('2019-06-29').then(
 
 ### Склонение прилагательных по родам
 
-Метод `russian.adjectiveGenders(lemma)` склоняет данное ему прилагательное, преобразуя его из мужского рода в женский,
+Метод `russian.adjectiveGenders(adjective)` склоняет данное ему прилагательное, преобразуя его из мужского рода в женский,
 средний и во множественное число:
 
 ```javascript
@@ -450,26 +450,59 @@ morpher.russian.userDict.getAll().then(
 * `предложный`    (`prepositional`) &mdash; текст в предложном падеже;
 * `местный`       (`locative`) &mdash; текст в местном падеже;
 
+Для украинского языка:
+
+Объект `СorrectionEntry` со следующими свойствами:
+
+* `singular` &mdash; объект `CorrectionForms` с формами в единственном числе;
+* `gender`   &mdash; род (чоловічий, жіночий).
+
+Объект `CorrectionForms` со следующими свойствами:
+
+* `називний`  (`nominative`) &mdash; текст в именительном падеже;
+* `родовий`   (`genitive`) &mdash; текст в родительном падеже;
+* `давальний` (`dative`) &mdash; текст в дательном падеже;
+* `знахідний` (`accusative`) &mdash; текст в винительном падеже;
+* `орудний`   (`instrumental`) &mdash; текст в творительном падеже;
+* `місцевий`  (`prepositional`) &mdash; текст в местном падеже;
+* `кличний`   (`vocative`) &mdash; текст в звательном падеже.
+
 <p id="userdict-post"></p>
 
 ### Добавить или изменить исправление
 
-Для добавления или изменения исправления нужно использовать метод
-`russian.userDict.addOrUpdate(correctionEntry)`
-(`ukrainian.userDict.addOrUpdate(correctionEntry)` для украинского языка соответственно).
+Для добавления или изменения исправления использовать метод
+`russian.userDict.addOrUpdate(entry)`.
 
 ```javascript
-const correctionEntry = {
+const entry = {
   singular: {
     nominative: 'Кошка',
-    genitive: 'Пантере',
+    dative: 'Пантере',
   },
   plural: {
-    genitive: 'Пантерам',
+    dative: 'Пантерам',
   },
 };
 
-morpher.russian.userDict.addOrUpdate(correctionEntry).then(
+morpher.russian.userDict.addOrUpdate(entry).then(
+    result => {
+      console.log(result); // true
+    }
+);
+```
+
+Для украинского языка:
+
+```javascript
+const entry = {
+  singular: {
+    nominative: 'Кiшка',
+    dative: 'Пантерi',
+  },
+};
+
+morpher.ukrainian.userDict.addOrUpdate(entry).then(
     result => {
       console.log(result); // true
     }
