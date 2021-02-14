@@ -79,7 +79,7 @@ describe('Ukrainian UserDict', function() {
 
       communicatorMock.response = new Response(
           JSON.stringify(response),
-          {status: 496},
+          {status: 400},
       );
 
       try {
@@ -133,7 +133,7 @@ describe('Ukrainian UserDict', function() {
 
       communicatorMock.response = new Response(
           JSON.stringify(response),
-          {status: 496},
+          {status: 498},
       );
 
       try {
@@ -202,7 +202,7 @@ describe('Ukrainian UserDict', function() {
 
       communicatorMock.response = new Response(
           JSON.stringify(response),
-          {status: 496},
+          {status: 400},
       );
 
       try {

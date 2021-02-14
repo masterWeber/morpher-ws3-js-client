@@ -95,7 +95,7 @@ describe('Qazaq client', function() {
 
       communicatorMock.response = new Response(
           JSON.stringify(response),
-          {status: 496},
+          {status: 400},
       );
 
       try {
