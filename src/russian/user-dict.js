@@ -119,7 +119,7 @@ class UserDict {
             throw new MorpherError(data['message'], data['code']);
           }
 
-          return new CorrectionEntry(data);
+          return data.map(e => new CorrectionEntry(e));
         });
   }
 
