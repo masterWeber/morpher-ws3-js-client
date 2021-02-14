@@ -91,9 +91,9 @@ class Client {
         });
   }
 
-  adjectiveGenders(lemma = '') {
+  adjectiveGenders(adjective = '') {
     const params = new Map();
-    params.set('s', lemma);
+    params.set('s', adjective);
 
     const path = this.prefix + '/genders';
 
