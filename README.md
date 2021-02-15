@@ -237,8 +237,8 @@ morpher.russian.spellDate('2019-06-29').then(
 
 ### Склонение прилагательных по родам
 
-Метод `russian.adjectiveGenders(adjective)` склоняет данное ему прилагательное, преобразуя его из мужского рода в женский,
-средний и во множественное число:
+Метод `russian.adjectiveGenders(adjective)` склоняет данное ему прилагательное, преобразуя его из мужского рода в
+женский, средний и во множественное число:
 
 ```javascript
 morpher.russian.adjectiveGenders('уважаемый').then(
@@ -285,10 +285,10 @@ morpher.russian.adjectivize('Москва').then(
 
 ### Расстановка ударений в текстах
 
-Метод `russian.addstressmarks(text)` расставляет ударения в текстах на русском языке:
+Метод `russian.addStressMarks(text)` расставляет ударения в текстах на русском языке:
 
 ```javascript
-morpher.russian.addstressmarks('Три девицы под окном').then(
+morpher.russian.addStressMarks('Три девицы под окном').then(
     result => {
       console.log(result); // Три деви́цы под окно́м
     }
@@ -300,7 +300,7 @@ morpher.russian.addstressmarks('Три девицы под окном').then(
 Варианты прочтения разделяются вертикальной чертой, например:
 
 ```javascript
-morpher.russian.addstressmarks('Белки питаются белками').then(
+morpher.russian.addStressMarks('Белки питаются белками').then(
     result => {
       console.log(result); // Бе́лки|Белки́ пита́ются бе́лками|белка́ми
     }
