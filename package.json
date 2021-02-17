@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/masterWeber/morpher.git"
+    "url": "git+https://github.com/masterWeber/morpher-ws3-js-client.git"
   },
   "keywords": [
     "morpher",
@@ -29,9 +29,9 @@
   "author": "Master Weber <master.weber@outlook.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/masterWeber/morpher/issues"
+    "url": "https://github.com/masterWeber/morpher-ws3-js-client/issues"
   },
-  "homepage": "https://github.com/masterWeber/morpher#readme",
+  "homepage": "https://github.com/masterWeber/morpher-ws3-js-client#readme",
   "dependencies": {
     "node-fetch": "^2.6.1"
   },
